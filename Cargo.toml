@@ -1,0 +1,16 @@
+[package]
+name = "syage_os"
+version = "0.1.0"
+edition = "2024"
+authors = ["Kahlil Wallace kahlil.wallace@protonmail.com"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[[bin]]
+name = "syage_os"
+test = false
+bench = false
