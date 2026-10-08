@@ -5,7 +5,7 @@ A hobby operating system written in Rust, following the [Writing an OS in Rust](
 ## Status
 
 - [x] Freestanding Rust binary (`#![no_std]`, `#![no_main]`)
-- [ ] VGA text buffer output
+- [x] VGA text buffer output
 - [ ] Breakpoint exceptions
 - [ ] Integrating a bootloader (`bootloader`)
 - [ ] Hardware access through a Global Descriptor Table
@@ -17,12 +17,14 @@ A hobby operating system written in Rust, following the [Writing an OS in Rust](
 
 ## Prerequisites
 
-- A Rust nightly toolchain (the blog posts use nightly features such as `custom_test_frameworks`)
-- [`cargo-xbuild`](https://github.com/rust-osdev/cargo-xbuild) or a nightly with `-Zbuild-std`, depending on the chapter
+- A Rust nightly toolchain with the `rust-src` and `llvm-tools-preview` components
+- [`bootimage`](https://github.com/rust-osdev/bootimage) to build and run bootable disk images
 - [`QEMU`](https://www.qemu.org/) to run the OS in a virtual machine
 
 ```sh
 rustup override set nightly
+rustup component add rust-src llvm-tools-preview
+cargo install bootimage
 ```
 
 ## Building and running
@@ -32,10 +34,15 @@ cargo build
 cargo run
 ```
 
+`cargo run` is wired up through `.cargo/config.toml` to invoke `bootimage runner`,
+which builds a bootable image and launches it in QEMU.
+
 ## Project layout
 
-- `src/main.rs` — kernel entry point (`_start`) and panic handler
+- `src/main.rs` — kernel entry point (`_start`), VGA output, and panic handler
 - `Cargo.toml` — package manifest; `panic = "abort"` for both dev and release profiles
+- `x86_64-syage_os.json` — custom bare-metal target specification
+- `.cargo/config.toml` — target selection, `build-std` settings, and the QEMU runner
 
 ## License
 

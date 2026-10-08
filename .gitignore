@@ -3,6 +3,15 @@
 **/*.rs.bk
 *.pdb
 
+# Bootable image artifacts produced by bootimage
+*.bin
+*.iso
+*.img
+
+# QEMU / debugger
+.gdb_history
+*.log
+
 # Editor / IDE
 .idea/
 .vscode/
