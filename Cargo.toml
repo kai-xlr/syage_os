@@ -6,6 +6,8 @@ authors = ["Kahlil Wallace kahlil.wallace@protonmail.com"]
 
 [dependencies]
 bootloader = "0.9"
+volatile = "0.2.6"
+spin = "0.5.2"
 
 [profile.dev]
 panic = "abort"
@@ -17,3 +19,7 @@ panic = "abort"
 name = "syage_os"
 test = false
 bench = false
+
+[dependencies.lazy_static]
+version = "1.0"
+features = ["spin_no_std"]

@@ -5,7 +5,8 @@ A hobby operating system written in Rust, following the [Writing an OS in Rust](
 ## Status
 
 - [x] Freestanding Rust binary (`#![no_std]`, `#![no_main]`)
-- [x] VGA text buffer output
+- [x] VGA text buffer output via a `vga_buffer` module with `println!`/`print!` macros
+- [x] Panic messages printed to the VGA buffer
 - [ ] Breakpoint exceptions
 - [ ] Integrating a bootloader (`bootloader`)
 - [ ] Hardware access through a Global Descriptor Table
@@ -39,8 +40,9 @@ which builds a bootable image and launches it in QEMU.
 
 ## Project layout
 
-- `src/main.rs` — kernel entry point (`_start`), VGA output, and panic handler
-- `Cargo.toml` — package manifest; `panic = "abort"` for both dev and release profiles
+- `src/main.rs` — kernel entry point (`_start`) and panic handler
+- `src/vga_buffer.rs` — safe interface to the VGA text buffer, plus the `println!`/`print!` macros
+- `Cargo.toml` — package manifest; uses `lazy_static`, `spin`, and `volatile`; `panic = "abort"` for both dev and release profiles
 - `x86_64-syage_os.json` — custom bare-metal target specification
 - `.cargo/config.toml` — target selection, `build-std` settings, and the QEMU runner
 
