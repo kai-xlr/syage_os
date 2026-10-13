@@ -8,10 +8,10 @@ A hobby operating system written in Rust, following the [Writing an OS in Rust](
 - [x] VGA text buffer output via a `vga_buffer` module with `println!`/`print!` macros
 - [x] Panic messages printed to the VGA buffer
 - [x] Unit and integration testing with a custom test framework and serial output
-- [ ] Breakpoint exceptions
+- [x] Breakpoint exceptions
+- [x] Catching interrupts with the Interrupt Descriptor Table
 - [ ] Integrating a bootloader (`bootloader`)
 - [ ] Hardware access through a Global Descriptor Table
-- [ ] Catching interrupts with the Interrupt Descriptor Table
 - [ ] Keyboard input
 - [ ] Memory management
 - [ ] Multitasking
@@ -52,13 +52,15 @@ exit code to a success/failure status for `cargo test`.
 
 - `src/lib.rs` — the `Testable` trait, `test_runner`, `test_panic_handler`, and `exit_qemu`
 - `src/serial.rs` — serial port driver plus the `serial_print!`/`serial_println!` macros
+- `src/interrupts.rs` — IDT setup and the breakpoint exception test case
 - `tests/basic_boot.rs` — integration test with its own `_start` entry point
 - `tests/should_panic.rs` — test that verifies a panic occurs (no test harness)
 
 ## Project layout
 
 - `src/main.rs` — kernel entry point (`_start`) and panic handler
-- `src/lib.rs` — reusable kernel library and test framework, shared by all test executables
+- `src/lib.rs` — reusable kernel library, `init` routine, and test framework, shared by all test executables
+- `src/interrupts.rs` — Interrupt Descriptor Table with a breakpoint exception handler
 - `src/vga_buffer.rs` — safe interface to the VGA text buffer, plus the `println!`/`print!` macros
 - `src/serial.rs` — 16550 UART serial driver used to report test results to the host
 - `tests/` — integration tests, each compiled as a separate bare-metal executable

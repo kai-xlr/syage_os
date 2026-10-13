@@ -2,11 +2,13 @@
 /target
 **/*.rs.bk
 *.pdb
+*.d
 
 # Bootable image artifacts produced by bootimage
 *.bin
 *.iso
 *.img
+*.map
 
 # QEMU / debugger
 .gdb_history
@@ -15,8 +17,10 @@
 # Editor / IDE
 .idea/
 .vscode/
+*.iml
 *.swp
 *.swo
+.fleet/
 
 # OS junk
 .DS_Store
