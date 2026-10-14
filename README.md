@@ -10,8 +10,9 @@ A hobby operating system written in Rust, following the [Writing an OS in Rust](
 - [x] Unit and integration testing with a custom test framework and serial output
 - [x] Breakpoint exceptions
 - [x] Catching interrupts with the Interrupt Descriptor Table
+- [x] Hardware access through a Global Descriptor Table
+- [x] Double fault handler with a dedicated stack via the GDT, TSS, and IST
 - [ ] Integrating a bootloader (`bootloader`)
-- [ ] Hardware access through a Global Descriptor Table
 - [ ] Keyboard input
 - [ ] Memory management
 - [ ] Multitasking
@@ -52,15 +53,17 @@ exit code to a success/failure status for `cargo test`.
 
 - `src/lib.rs` — the `Testable` trait, `test_runner`, `test_panic_handler`, and `exit_qemu`
 - `src/serial.rs` — serial port driver plus the `serial_print!`/`serial_println!` macros
-- `src/interrupts.rs` — IDT setup and the breakpoint exception test case
+- `src/interrupts.rs` — IDT setup, the breakpoint handler, and the double fault handler
 - `tests/basic_boot.rs` — integration test with its own `_start` entry point
 - `tests/should_panic.rs` — test that verifies a panic occurs (no test harness)
+- `tests/stack_overflow.rs` — test that verifies the double fault handler runs on a stack overflow (no test harness)
 
 ## Project layout
 
 - `src/main.rs` — kernel entry point (`_start`) and panic handler
 - `src/lib.rs` — reusable kernel library, `init` routine, and test framework, shared by all test executables
-- `src/interrupts.rs` — Interrupt Descriptor Table with a breakpoint exception handler
+- `src/interrupts.rs` — Interrupt Descriptor Table with breakpoint and double fault handlers
+- `src/gdt.rs` — Global Descriptor Table, Task State Segment, and the double fault IST stack
 - `src/vga_buffer.rs` — safe interface to the VGA text buffer, plus the `println!`/`print!` macros
 - `src/serial.rs` — 16550 UART serial driver used to report test results to the host
 - `tests/` — integration tests, each compiled as a separate bare-metal executable
@@ -76,5 +79,7 @@ See the repository for license details.
 
 - [Writing an OS in Rust](https://os.phil-opp.com/)
 - [Testing](https://os.phil-opp.com/testing/)
+- [CPU Exceptions](https://os.phil-opp.com/cpu-exceptions/)
+- [Double Faults](https://os.phil-opp.com/double-fault-exceptions/)
 - [The `bootloader` crate](https://github.com/rust-osdev/bootloader)
 - [The `uart_16550` crate](https://github.com/rust-osdev/uart_16550)
